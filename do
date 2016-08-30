@@ -3,7 +3,7 @@
 CURDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Set some environmental variables here
-# export PYTHONPATH=$CURDIR
+export PYTHONPATH=/Applications//Shotgun.app/Contents/Resources/Python/lib/python2.7/site-packages/
 
 COMMAND="$1"
 
