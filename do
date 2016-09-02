@@ -18,6 +18,9 @@ then
 elif [ "$COMMAND" = "build_ui" ]
 then
     pyside-uic resources/main_window.ui -o ui/main_window.py
+    pyside-uic resources/drop_area.ui -o ui/drop_area.py
+
+    pyside-rcc resources/icons.qrc -o ui/icons_rc.py
 
 else
     echo "Command is unknown"

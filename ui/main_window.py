@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'resources/main_window.ui'
 #
-# Created: Tue Aug 30 11:01:31 2016
+# Created: Thu Sep  1 12:27:03 2016
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,29 +12,30 @@ from PySide import QtCore, QtGui
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.resize(792, 370)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtGui.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.search_bar = QtGui.QLineEdit(self.centralwidget)
-        self.search_bar.setObjectName("search_bar")
-        self.verticalLayout.addWidget(self.search_bar)
-        self.search_bar2 = QtGui.QLineEdit(self.centralwidget)
-        self.search_bar2.setObjectName("search_bar2")
-        self.verticalLayout.addWidget(self.search_bar2)
         self.table_view = QtGui.QTableView(self.centralwidget)
+        self.table_view.setAcceptDrops(True)
+        self.table_view.setEditTriggers(QtGui.QAbstractItemView.AllEditTriggers)
+        self.table_view.setDragEnabled(True)
+        self.table_view.setDragDropMode(QtGui.QAbstractItemView.DragDrop)
+        self.table_view.setDefaultDropAction(QtCore.Qt.CopyAction)
+        self.table_view.setSelectionMode(QtGui.QAbstractItemView.NoSelection)
+        self.table_view.setShowGrid(False)
+        self.table_view.setGridStyle(QtCore.Qt.NoPen)
         self.table_view.setObjectName("table_view")
         self.table_view.horizontalHeader().setStretchLastSection(True)
         self.verticalLayout.addWidget(self.table_view)
-        self.action_btn = QtGui.QPushButton(self.centralwidget)
-        self.action_btn.setObjectName("action_btn")
-        self.verticalLayout.addWidget(self.action_btn)
+        self.publish_btn = QtGui.QPushButton(self.centralwidget)
+        self.publish_btn.setObjectName("publish_btn")
+        self.verticalLayout.addWidget(self.publish_btn)
+        self.cancel_btn = QtGui.QPushButton(self.centralwidget)
+        self.cancel_btn.setObjectName("cancel_btn")
+        self.verticalLayout.addWidget(self.cancel_btn)
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtGui.QMenuBar()
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 22))
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
@@ -44,5 +45,6 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "MainWindow", None, QtGui.QApplication.UnicodeUTF8))
-        self.action_btn.setText(QtGui.QApplication.translate("MainWindow", "Action!", None, QtGui.QApplication.UnicodeUTF8))
+        self.publish_btn.setText(QtGui.QApplication.translate("MainWindow", "Publish", None, QtGui.QApplication.UnicodeUTF8))
+        self.cancel_btn.setText(QtGui.QApplication.translate("MainWindow", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
 

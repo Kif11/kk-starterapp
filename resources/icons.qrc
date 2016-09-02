@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="drop_icon">
+    <file>drop2_icon.png</file>
+  </qresource>
+</RCC>
