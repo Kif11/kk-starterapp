@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'resources/drop_area.ui'
 #
-# Created: Thu Sep  1 12:27:03 2016
+# Created: Tue Sep  6 11:25:59 2016
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!

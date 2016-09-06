@@ -16,7 +16,7 @@ sg_tasks = [
 
 taks_types = {}
 for t in sg_tasks:
-    taks_types[t['entity']['name'], t['content']] = t['entity']['type']
+    taks_types[t['entity']['name'], t['content']] = t['entity']
 
 # import pdb; pdb.set_trace()
 
@@ -57,7 +57,7 @@ class DropOverlay(QtGui.QLabel):
 
 class StatusDelegate(QtGui.QStyledItemDelegate):
     """
-    ///
+    Define display style of status cell
     """
     def __init__(self, parent):
         QtGui.QStyledItemDelegate.__init__(self, parent)
@@ -73,35 +73,19 @@ class StatusDelegate(QtGui.QStyledItemDelegate):
         """
         Paint a checkbox without the label.
         """
-        pic = QtGui.QPixmap('/Users/kirill/Desktop/kk-starterapp/resources/attention-256.png')
-        painter = QtGui.QPainter(self)
-        painter.drawPixmap(0, 0, self.pic)
+        if index.data() == 0:
+            pic = QtGui.QPixmap(':/status/status_wts.png')
+        elif index.data() == 1:
+            pic = QtGui.QPixmap(':/status/status_ok.png')
+        elif index.data() == 2:
+            pic = QtGui.QPixmap(':/status/status_warning.png')
+        elif index.data() == 3:
+            pic = QtGui.QPixmap(':/status/status_error.png')
 
-        # checked = index.model().data(index, QtCore.Qt.DisplayRole)
-        #
-        # opt = QtGui.QStyleOptionButton()
-        #
-        # if (index.flags() & QtCore.Qt.ItemIsEditable) > 0:
-        #     opt.state |= QtGui.QStyle.State_Enabled
-        # else:
-        #     opt.state |= QtGui.QStyle.State_ReadOnly
-        #
-        # if checked:
-        #     opt.state |= QtGui.QStyle.State_On
-        # else:
-        #     opt.state |= QtGui.QStyle.State_Off
-        #
-        # opt.rect = self.getCheckBoxRect(option)
-        #
-        # opt.state |= QtGui.QStyle.State_Enabled
-        #
-        # if index.row() % 2 == 0:
-        #     painter.fillRect(option.rect, TABLE_EVEN_ROW_COLOR)
-        #
-        # QtGui.QApplication.style().drawControl(QtGui.QStyle.CE_CheckBox, opt, painter)
+        painter.drawPixmap(option.rect.topLeft(), pic.scaled(option.rect.width(), option.rect.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
 
     def editorEvent(self, event, model, option, index):
-        return None
+        return False
 
 class CheckBoxDelegate(QtGui.QStyledItemDelegate):
     """
@@ -189,8 +173,14 @@ class ComboBoxDelegate(QtGui.QStyledItemDelegate):
         QtGui.QStyledItemDelegate.__init__(self, parent)
 
     def displayText(self, value, locale=None):
+
         cur_index = value[0]
-        display_value = value[1][cur_index]
+        options = value[1]
+
+        if options:
+            display_value = options[cur_index]
+        else:
+            display_value = 'None'
 
         return display_value
 
@@ -315,15 +305,21 @@ class IngestTableModel(QtCore.QAbstractTableModel):
         if index.column() == self.task_col or index.column() == self.enti_col:
             self._set_publish_types(index)
 
+    def get_sg_entity_id(self, entiry_name, task_name):
+        entity = taks_types.get((entiry_name, task_name))
+        entity_id = entity.get('id')
+        return entity_id
+
     def _get_publish_types(self, entiry_name, task_name):
-        entity_type = taks_types.get((entiry_name, task_name))
+        entity = taks_types.get((entiry_name, task_name), {})
+        entity_type = entity.get('type')
 
         if entity_type == 'Shot':
             publish_type_list = ['ShotSmth', 'lpkHey']
         elif entity_type == 'Asset':
             publish_type_list = ['AssetSmth', 'Test_asset111']
         else:
-            publish_type_list = ['Grog', 'Cap']
+            publish_type_list = []
 
         return publish_type_list
 
@@ -360,6 +356,7 @@ class IngestMainWindow(QtGui.QMainWindow):
         self.table_model = IngestTableModel(self, data_list, header)
         self.ui.table_view.setModel(self.table_model)
 
+        self.ui.table_view.setItemDelegateForColumn(header.index('Status'), StatusDelegate(self))
         self.ui.table_view.setItemDelegateForColumn(header.index('Type'), ComboBoxDelegate(self))
         self.ui.table_view.setItemDelegateForColumn(header.index('Mov'), CheckBoxDelegate(self))
 
@@ -416,7 +413,7 @@ class IngestMainWindow(QtGui.QMainWindow):
         param files: List of QtCore.QUrl's
         """
         for f in files:
-            new_pub_item = [f.path(), 'sub1111', 'match', 'GS', 22, [1, [['DPX', 'EXR']]], True, 'o', 'Default']
+            new_pub_item = [0, f.path(), 'sub1111', 'match', 'GS', 22, [1, [['DPX', 'EXR']]], True, 'o', 'Default']
             data_list.append(new_pub_item)
 
         self.table_model.reset()
@@ -424,6 +421,9 @@ class IngestMainWindow(QtGui.QMainWindow):
 
     def on_publish(self):
         print '[D] Publish btn pressed! '
+        for p in data_list:
+            p[0] = 1
+            self.table_model.reset()
 
 class App(QtGui.QApplication):
 

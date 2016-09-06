@@ -2,4 +2,10 @@
   <qresource prefix="drop_icon">
     <file>drop2_icon.png</file>
   </qresource>
+  <qresource prefix="status">
+    <file>status_wts.png</file>
+    <file>status_error.png</file>
+    <file>status_ok.png</file>
+    <file>status_warning.png</file>
+  </qresource>
 </RCC>

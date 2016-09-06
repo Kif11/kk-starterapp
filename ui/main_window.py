@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'resources/main_window.ui'
 #
-# Created: Thu Sep  1 12:27:03 2016
+# Created: Tue Sep  6 11:25:59 2016
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -48,3 +48,4 @@ class Ui_MainWindow(object):
         self.publish_btn.setText(QtGui.QApplication.translate("MainWindow", "Publish", None, QtGui.QApplication.UnicodeUTF8))
         self.cancel_btn.setText(QtGui.QApplication.translate("MainWindow", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
 
+import icons_rc
